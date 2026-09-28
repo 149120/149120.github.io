@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Seattle Seafood &amp; Stuff</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<style>
+:root{--deep-navy:#0d2b3e;--ocean-blue:#1e7f9f;--coral:#fa7d5a;--sand:#f4e9dc;--seafoam:#b8e2dc;--white:#fff;--muted-shadow:rgba(7,40,58,.12)}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:90px}
+body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:#f4f9fc;color:#11303d;line-height:1.5;overflow-x:hidden}
+img{max-width:100%;display:block}
+a{text-decoration:none;color:inherit}
+
+/* HEADER */
+.site-header{background:var(--white);padding:1rem 2rem;box-shadow:0 4px 12px var(--muted-shadow);position:sticky;top:0;z-index:999;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;transition:box-shadow .3s ease}
+.scroll-progress{position:fixed;top:0;left:0;height:4px;background:linear-gradient(90deg,var(--coral),var(--ocean-blue));width:0%;z-index:1000;transition:width .1s linear}
+.brand{display:flex;align-items:center;gap:.6rem}
+.brand i{font-size:2.2rem;color:var(--coral);transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.brand:hover i{transform:rotate(-12deg) scale(1.1)}
+.brand-name{font-size:1.6rem;font-weight:800;color:var(--deep-navy);letter-spacing:-.5px}
+.nav-links{display:flex;gap:2rem;align-items:center}
+.nav-links a{font-weight:600;color:var(--deep-navy);position:relative;padding-bottom:6px;transition:color .25s ease}
+.nav-links a:after{content:'';position:absolute;bottom:0;left:0;width:0;height:3px;background:var(--coral);transition:width .3s cubic-bezier(.65,0,.35,1);border-radius:3px}
+.nav-links a:hover:after,.nav-links a.active:after{width:100%}
+.nav-links a:hover{color:var(--ocean-blue)}
+#menu-toggle{display:none}
+.hamburger{display:none;font-size:1.6rem;cursor:pointer;color:var(--deep-navy)}
+
+/* HERO */
+.hero{position:relative;min-height:520px;display:flex;align-items:center;justify-content:center;color:#fff;text-align:center;padding:3rem 1rem;overflow:hidden}
+.hero-bg{position:absolute;inset:-40px 0 0 0;background:linear-gradient(160deg,rgba(13,43,62,.55),rgba(13,43,62,.85) 60%,rgba(250,125,90,.35)),url('https://popmenucloud.com/cdn-cgi/image/width%3D1200%2Cheight%3D1200%2Cfit%3Dscale-down%2Cformat%3Dauto%2Cquality%3D60/ubfqgmci/d9592c60-48bf-4574-85b5-35f3a9f82179.jpg') center/cover no-repeat;animation:heroZoom 16s ease-in-out infinite alternate;will-change:transform,background-position}
+@keyframes heroZoom{from{transform:scale(1)}to{transform:scale(1.08)}}
+.hero-glow{position:absolute;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(250,125,90,.45),transparent 70%);top:-160px;right:-140px;filter:blur(10px);animation:glowPulse 7s ease-in-out infinite}
+@keyframes glowPulse{0%,100%{opacity:.6;transform:scale(1)}50%{opacity:1;transform:scale(1.15)}}
+.hero-wave{position:absolute;left:0;right:0;bottom:-1px;line-height:0;z-index:1}
+.hero-wave svg{width:100%;height:70px;display:block}
+.hero-content{position:relative;z-index:1}
+.hero-content h1{font-size:4.6rem;font-weight:900;letter-spacing:-1px;line-height:1.02;text-shadow:0 8px 26px rgba(0,0,0,.35);margin-bottom:.5rem;opacity:0;animation:riseIn .8s ease-out .15s forwards}
+.hero-content h1 span{background:linear-gradient(90deg,#fff,var(--seafoam) 55%,var(--coral));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero-content p{font-size:1.25rem;max-width:650px;margin:1rem auto 2rem;opacity:0;animation:riseIn .8s ease-out .35s forwards}
+.hero-content .hero-ctas{opacity:0;animation:riseIn .8s ease-out .55s forwards}
+@keyframes riseIn{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.btn-primary,.btn-outline{background:linear-gradient(135deg,var(--coral),#ff9d6c);color:#fff;padding:.9rem 2.4rem;border-radius:50px;font-weight:700;font-size:1.05rem;margin:.25rem .5rem;display:inline-block;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease,background .25s ease;border:2px solid transparent;box-shadow:0 10px 24px rgba(250,125,90,.4)}
+.btn-outline{background:transparent;border-color:var(--seafoam);color:var(--seafoam)}
+.btn-outline:hover{background:var(--seafoam);color:var(--deep-navy);transform:translateY(-3px)}
+.btn-primary:hover{background:#e96847;transform:translateY(-3px) scale(1.03);box-shadow:0 14px 24px rgba(250,125,90,.5)}
+
+/* SECTIONS */
+.container{max-width:1100px;margin:0 auto;padding:0 1.5rem}
+.section{padding:5rem 0}
+.section-title{text-align:center;font-size:2.8rem;font-weight:900;color:var(--deep-navy);margin-bottom:.9rem;letter-spacing:-.5px;position:relative}
+.section-title:after{content:'';display:block;width:64px;height:5px;background:linear-gradient(90deg,var(--coral),var(--ocean-blue));border-radius:4px;margin:.8rem auto 0}
+.section-sub{text-align:center;color:var(--ocean-blue);font-weight:700;margin-bottom:3rem;letter-spacing:1px;text-transform:uppercase;font-size:.9rem}
+.menu-section .section-title,.blog-section .section-title{margin-bottom:2.5rem}
+
+/* scroll reveal (JS toggles .in-view; respects reduced motion) */
+.reveal{opacity:0;transform:translateY(28px) scale(.97);transition:opacity .7s cubic-bezier(.2,.65,.3,1),transform .7s cubic-bezier(.2,.65,.3,1)}
+.reveal.in-view{opacity:1;transform:translateY(0) scale(1)}
+.reveal-group .reveal:nth-child(1){transition-delay:.05s}
+.reveal-group .reveal:nth-child(2){transition-delay:.15s}
+.reveal-group .reveal:nth-child(3){transition-delay:.25s}
+.reveal-group .reveal:nth-child(4){transition-delay:.35s}
+@media (prefers-reduced-motion: reduce){
+  .reveal{opacity:1;transform:none;transition:none}
+  .hero-bg{animation:none}
+  .hero-content h1,.hero-content p,.hero-content .hero-ctas{opacity:1;animation:none}
+}
+
+/* FEATURES */
+.feature-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.feature-card{background:#fff;border-radius:24px;padding:2.2rem 1.5rem;text-align:center;box-shadow:0 10px 20px rgba(0,0,0,.06);transition:transform .35s cubic-bezier(.2,.65,.3,1),box-shadow .35s ease;border-top:4px solid var(--coral)}
+.feature-card:hover{transform:translateY(-10px);box-shadow:0 24px 36px rgba(13,43,62,.16)}
+.feature-card i{font-size:2.8rem;color:#fff;background:linear-gradient(135deg,var(--coral),#ff9d6c);width:84px;height:84px;line-height:84px;border-radius:50%;margin-bottom:1.2rem;transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 10px 22px rgba(250,125,90,.4)}
+.feature-card:hover i{transform:scale(1.12) rotate(8deg)}
+.feature-card h3{font-size:1.25rem;margin-bottom:.5rem}
+.feature-card p{color:#3e5663}
+
+/* MENU */
+.menu-section{background:var(--sand)}
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1.8rem}
+.menu-item{display:grid;grid-template-columns:150px 1fr;gap:1rem;background:#fff;padding:1.2rem;border-radius:20px;align-items:center;box-shadow:0 6px 14px rgba(0,0,0,.04);transition:background .35s ease,border-color .35s ease,transform .35s cubic-bezier(.2,.65,.3,1),box-shadow .35s ease;border-left:6px solid var(--coral)}
+.menu-item:hover{background:var(--seafoam);border-left-color:var(--deep-navy);transform:translateX(6px);box-shadow:0 12px 22px rgba(0,0,0,.08)}
+.menu-thumb{overflow:hidden;border-radius:12px}
+.menu-thumb img{width:150px;height:120px;border-radius:12px;background:#e6f3f7;object-fit:cover;transition:transform .5s ease}
+.menu-item:hover .menu-thumb img{transform:scale(1.08)}
+.menu-info h4{display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-size:1.1rem;font-weight:700}
+.price{color:#fff;font-weight:800;background:linear-gradient(135deg,var(--coral),#ff9d6c);padding:.25rem .8rem;border-radius:50px;font-size:.95rem;box-shadow:0 6px 14px rgba(250,125,90,.35)}
+.menu-info p{font-size:.9rem;color:#3b5c6b;margin-top:3px}
+
+/* BLOG */
+.blog-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:2rem}
+.blog-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 10px 20px rgba(0,0,0,.06);display:flex;flex-direction:column;transition:transform .35s cubic-bezier(.2,.65,.3,1),box-shadow .35s ease}
+.blog-card:hover{transform:translateY(-6px);box-shadow:0 20px 30px rgba(0,0,0,.12)}
+.blog-banner{background:linear-gradient(135deg,var(--deep-navy),var(--ocean-blue));position:relative;overflow:hidden;color:var(--coral);font-size:2.4rem;text-align:center;padding:1.6rem 0}
+.blog-banner:before{content:'';position:absolute;width:180px;height:180px;background:radial-gradient(circle,rgba(250,125,90,.35),transparent 70%);top:-60px;right:-40px;border-radius:50%}
+.blog-body{padding:1.4rem 1.5rem 1.6rem;display:flex;flex-direction:column;flex:1}
+.blog-date{font-size:.85rem;color:var(--ocean-blue);font-weight:600}
+.blog-body h3{font-size:1.2rem;color:var(--deep-navy);margin:.3rem 0 .6rem}
+.blog-body p{color:#3e5663;margin-bottom:1rem}
+.read-more{margin-top:auto;font-weight:700;color:var(--coral);transition:color .25s ease,transform .25s ease;display:inline-block}
+.read-more:hover{color:#e96847;transform:translateX(4px)}
+
+/* FIND US */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:2rem;text-align:center}
+.info-card{transition:transform .35s cubic-bezier(.2,.65,.3,1)}
+.info-card:hover{transform:translateY(-6px)}
+.info-card i{color:#fff;font-size:2rem;background:linear-gradient(135deg,var(--ocean-blue),#2fb4d9);width:72px;height:72px;line-height:72px;border-radius:50%;margin-bottom:1rem;transition:transform .4s cubic-bezier(.34,1.56,.64,1);box-shadow:0 10px 22px rgba(30,127,159,.35)}
+.info-card:hover i{transform:scale(1.12)}
+.info-card h4{color:var(--deep-navy);margin-bottom:.5rem;font-size:1.2rem}
+.info-card p{color:#2f4e5e}
+.info-card a:hover{color:var(--coral)}
+
+/* CONTACT FORM */
+.contact-section{background:var(--sand)}
+.contact-wrap{max-width:640px;margin:0 auto;background:#fff;border-radius:24px;padding:2.5rem;box-shadow:0 10px 20px rgba(0,0,0,.06)}
+.form-row{margin-bottom:1.3rem}
+.form-row label{display:block;font-weight:700;color:var(--deep-navy);margin-bottom:.4rem;font-size:.95rem}
+.form-row input,.form-row textarea{width:100%;padding:.8rem 1rem;border:2px solid #dfe9ee;border-radius:12px;font-size:1rem;font-family:inherit;color:#11303d;background:#f8fbfd;transition:border-color .25s ease,background .25s ease,box-shadow .25s ease}
+.form-row input:focus,.form-row textarea:focus{outline:none;border-color:var(--ocean-blue);background:#fff;box-shadow:0 0 0 4px rgba(30,127,159,.12)}
+.form-row textarea{resize:vertical;min-height:120px}
+.form-error{display:none;color:#c0392b;font-size:.85rem;margin-top:.35rem;font-weight:600}
+.form-row.invalid input,.form-row.invalid textarea{border-color:#c0392b}
+.form-row.invalid .form-error{display:block}
+.contact-submit{background:var(--coral);color:#fff;border:none;padding:.9rem 2.4rem;border-radius:50px;font-weight:700;font-size:1rem;cursor:pointer;transition:transform .3s cubic-bezier(.34,1.56,.64,1),box-shadow .3s ease,background .25s ease;width:100%}
+.contact-submit:hover:not(:disabled){background:#e96847;transform:translateY(-2px);box-shadow:0 12px 20px rgba(250,125,90,.5)}
+.contact-submit:disabled{opacity:.6;cursor:not-allowed;transform:none}
+.form-status{margin-top:1.2rem;padding:.9rem 1.1rem;border-radius:12px;font-weight:600;font-size:.95rem;display:none;opacity:0;transform:translateY(-6px);transition:opacity .3s ease,transform .3s ease}
+.form-status.show{display:block;opacity:1;transform:translateY(0)}
+.form-status.success{background:#e3f6ee;color:#1e7f4a}
+.form-status.error{background:#fbe6e2;color:#c0392b}
+.honeypot{position:absolute;left:-9999px;top:-9999px}
+
+/* back to top */
+.to-top{position:fixed;right:1.5rem;bottom:1.5rem;width:48px;height:48px;border-radius:50%;background:var(--deep-navy);color:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 10px 20px rgba(13,43,62,.35);opacity:0;pointer-events:none;transform:translateY(12px);transition:opacity .3s ease,transform .3s ease;z-index:998}
+.to-top.show{opacity:1;pointer-events:auto;transform:translateY(0)}
+.to-top:hover{background:var(--coral)}
+
+/* MOBILE */
+@media (max-width:768px){
+.site-header{padding:.8rem 1rem}
+.nav-links{display:none;width:100%;flex-direction:column;gap:0;background:#fff;padding:1rem 0;box-shadow:0 30px 40px rgba(0,0,0,.05);border-radius:0 0 20px 20px}
+.nav-links a{display:block;padding:.7rem 2rem}
+.hamburger{display:block}
+#menu-toggle:checked ~ .nav-links{display:flex}
+.hero-content h1{font-size:2.3rem}
+.section-title{font-size:1.9rem}
+.menu-item{grid-template-columns:1fr}
+.menu-thumb img{width:100%;height:170px}
+.contact-wrap{padding:1.8rem}
+}
+</style>
+</head>
+
+<body>
+
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<header class="site-header">
+  <div class="brand">
+    <i class="fas fa-fish"></i>
+    <div class="brand-name">Seattle Seafood &amp; Stuff</div>
+  </div>
+  <input type="checkbox" id="menu-toggle">
+  <label for="menu-toggle" class="hamburger" aria-label="Toggle navigation"><i class="fas fa-bars"></i></label>
+  <nav class="nav-links">
+    <a href="#home" class="active">Home</a>
+    <a href="#menu">Menu</a>
+    <a href="#blog">Blog</a>
+    <a href="#about">Our Story</a>
+    <a href="#find-us">Find Us</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <h1>Fresh from the <span>Ocean</span></h1>
+    <p>Shrimp, Salmon, Crab &amp; Drinks — served straight from our truck.</p>
+    <div class="hero-ctas">
+      <a href="#menu" class="btn-primary">See Our Menu</a>
+      <a href="#find-us" class="btn-outline">Find the Truck</a>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 70" preserveAspectRatio="none"><path d="M0,40 C240,90 480,0 720,25 C960,50 1200,10 1440,40 L1440,70 L0,70 Z" fill="#f4f9fc"></path></svg>
+  </div>
+</section>
+
+<section class="section" id="about">
+  <div class="container">
+    <h2 class="section-title reveal">Why Us?</h2>
+    <p class="section-sub reveal">ocean to truck quality</p>
+    <div class="feature-grid reveal-group">
+      <div class="feature-card reveal">
+        <i class="fas fa-fish"></i>
+        <h3>Local Favorites</h3>
+        <p>Fresh from the Puget Sound and Pacific, Seattle's seafood scene serves up wild salmon, Dungeness crab, and briny local oysters, from waterfront restaurants to Pike Place Market stalls.</p>
+      </div>
+      <div class="feature-card reveal">
+        <i class="fas fa-bolt"></i>
+        <h3>Fast &amp; Casual</h3>
+        <p>Great seafood shouldn't mean a long wait. We source fresh, cook to order, and keep our menu focused so every plate comes out hot, flavorful, and quick. No frozen shortcuts, no sitting under a heat lamp. Just fresh catch from our window to your hands in minutes.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section menu-section" id="menu">
+  <div class="container">
+    <h2 class="section-title reveal">Menu</h2>
+    <div class="menu-grid reveal-group">
+      <div class="menu-item reveal">
+        <div class="menu-thumb"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRA3Ah2XpdNhzzvaT39k9C4Xll-LPXmbBTgs4S1aO46A&amp;s=10" alt="King Salmon" width="150" height="120"></div>
+        <div class="menu-info">
+          <h4>King Salmon <span class="price">$12</span></h4>
+          <p>Caught straight from the Pacific Ocean, grilled and served with lemon</p>
+        </div>
+      </div>
+      <div class="menu-item reveal">
+        <div class="menu-thumb"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR99qgDs5BilYIPclMukGXiLXEZEr1fomnYOh2vHjBF-w&amp;s=10" alt="Spot Prawn" width="150" height="120"></div>
+        <div class="menu-info">
+          <h4>Spot Prawn <span class="price">$14</span></h4>
+          <p>Sweet, tender, and almost lobster-like in flavor, our spot prawns are cooked to order and served hot and fast, so you get premium seafood without the wait.</p>
+        </div>
+      </div>
+      <div class="menu-item reveal">
+        <div class="menu-thumb"><img src="https://live.staticflickr.com/7450/13328993305_6df0fc4e2a_b.jpg" alt="Dungeness Crab" width="150" height="120"></div>
+        <div class="menu-info">
+          <h4>Dungeness Crab <span class="price">$18</span></h4>
+          <p>Fresh Dungeness crab, sweet, tender, and packed with flavor. Served simply so the crab shines.</p>
+        </div>
+      </div>
+      <div class="menu-item reveal">
+        <div class="menu-thumb"><img src="https://cdn12.picryl.com/photo/2016/12/31/fish-dinner-chips-food-drink-5ab9d9-1024.jpg" alt="Fish and Chips" width="150" height="120"></div>
+        <div class="menu-info">
+          <h4>Fish and Chips <span class="price">$11</span></h4>
+          <p>Cod served fresh with lemon, along with fries</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BLOG: swap the sample posts below for your own; point each Read more link at the real post -->
+<section class="section blog-section" id="blog">
+  <div class="container">
+    <h2 class="section-title reveal">Blog</h2>
+    <div class="blog-grid reveal-group">
+      <article class="blog-card reveal">
+        <div class="blog-banner"><img src="image placeholer" alt="Man cooking salmon"></div>
+        <div class="blog-body">
+          <time class="blog-date" datetime="2026-09-20">September 20, 2026</time>
+          <h3>Cooked to Perfection</h3>
+          <p>Every salmon fillet hits the grill at the exact temperature needed to lock in rich moisture, creating a crisp golden sear and a melt-in-your-mouth center cooked precisely to order. Alongside, our Dungeness crab is dusted with a custom spice blend balanced down to the grain—engineered to elevate the meat's natural ocean sweetness without ever overpowering it.</p>
+        </div>
+      </article>
+      <article class="blog-card reveal">
+        <div class="blog-banner"><img src="https://sites.google.com/sitesv-images-rt/AMxu72sFv-j3WA7BZxofxnVW6rD8Ty2sCnBRDCWDK0UkeWJyLZg9u-pqZlZpmUlYJWhxtFsS_xHXVMw7cOsDKlr7PlUAj1rv0MCFmv5jJG9_OWThwXu7MPYYqzgXzpmxIUmwrq7f4vx1oAzlPexHjn7ZG_mK8uyHoqeJviTqA-CgJecL7rhZtpDcsZ_3dXeQZWxoiXgN-dlopxv3s9HX7YRHg-OOTNuIFlHdNUABjej2=w1280" alt="jsn" ></div>
+        <div class="blog-body">
+          <time class="blog-date" datetime="2026-09-12">September 12, 2026</time>
+          <h3>Loved Locally</h3>
+          <p>Seattle locals don't just love our seafood truck—they track it. We're serving wild-caught Pacific salmon, overflowing Dungeness crab rolls, and piping-hot clam chowder right to your favorite street corners and breweries. It's five-star, ocean-fresh quality with zero waitlists and maximum flavor. Track our pin today and see why the curb is Seattle's favorite dining spot.</p>
+        </div>
+      </article>
+      <article class="blog-card reveal">
+        <div class="blog-banner"><img src="https://d3ffwuiotzydm.cloudfront.net/13hs8%2Fpreview%2F81031719%2Fmain_large.jpg?response-content-disposition=inline%3Bfilename%3D%22main_large.jpg%22%3B&response-content-type=image%2Fjpeg&Expires=1790269720&Signature=PdnR7AYivisP8213AKdc9gYrLXT1TF9rjcgsxErvzVFiuLau6eEYJqqxg096xCqVT7crlC1aXzhqdUOGPldd0k~6K1Wpm2Dqwewp14JJWQtonJG3fMm9T~a3rVxU2clC2SdvbSsHoZqdvTSyPrCJ2sNchj1z-S5ncaRZzx7ewpYDHcLiDMzkVt8Ga18qBBdBntIdoEauMPBGuP39SoJF-4fXLeHUdXkw1fuF7Oev85jJ9ldIY29hyx-mbv07j0K2r6Sv~Vlw1EGUEop7D5uYCPSJpqMlZ3Iga8-39W8SUGvNXmUJwsrfOmLNgN1VHuEVxc67kiordrUiALfmOFCeIw__&Key-Pair-Id=APKAJT5WQLLEOADKLHBQ" alt="Man eating seafood in seattle"  ></div>
+        <div class="blog-body">
+          <time class="blog-date" datetime="2026-09-03">September 3, 2026</time>
+          <h3>Pier to plate freshness</h3>
+          <p>We don't do frozen cargo or mystery catches. We source directly from local Pacific Northwest fishermen every single morning. If it was swimming off the coast yesterday, it's sizzled to perfection on our flat top today.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="find-us">
+  <div class="container">
+    <h2 class="section-title reveal">Find Us Today</h2>
+    <p class="section-sub reveal">follow us for daily locations</p>
+    <div class="info-grid reveal-group">
+      <div class="info-card reveal">
+        <i class="fas fa-map-marker-alt"></i>
+        <h4>Pier 48</h4>
+        <p>11:00 AM – 8:00 PM</p>
+      </div>
+      <div class="info-card reveal">
+        <i class="fas fa-phone-alt"></i>
+        <h4>Private Events</h4>
+        <p><a href="tel:+16513189027">(651)-318-9027</a><br><a href="mailto:evanzupke@gmail.com">evanzupke@gmail.com</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section contact-section" id="contact">
+  <div class="container">
+    <h2 class="section-title reveal">Contact Us</h2>
+    <div class="contact-wrap reveal">
+      <form id="contact-form" novalidate>
+        <!-- honeypot field: real visitors never fill this in, bots often do -->
+        <div class="form-row honeypot" aria-hidden="true">
+          <label for="company">Company</label>
+          <input type="text" id="company" name="company" tabindex="-1" autocomplete="off">
+        </div>
+
+        <div class="form-row" id="row-name">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" autocomplete="name" required>
+          <div class="form-error">Please enter your name.</div>
+        </div>
+
+        <div class="form-row" id="row-email">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" autocomplete="email" required>
+          <div class="form-error">Please enter a valid email address.</div>
+        </div>
+
+        <div class="form-row" id="row-message">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" required></textarea>
+          <div class="form-error">Please enter a message.</div>
+        </div>
+
+        <button type="submit" class="contact-submit" id="contact-submit">Send Message</button>
+
+        <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+      </form>
+    </div>
+  </div>
+</section>
+
+<a href="#home" class="to-top" id="to-top" aria-label="Back to top"><i class="fas fa-arrow-up"></i></a>
+
+<script>
+(function(){
+  // ⚠️ REQUIRED SETUP: this form posts to Formspree (https://formspree.io), a free
+  // service that turns a plain HTML form into a working backend — submissions are
+  // emailed to you, no server code needed.
+  //   1. Go to https://formspree.io and sign up free (or use another provider,
+  //      e.g. Getform, Basin — the JS below works the same way for any of them).
+  //   2. Create a new form, connect the inbox you want submissions sent to
+  //      (e.g. evanzupke@gmail.com), and copy the endpoint URL it gives you.
+  //   3. Paste that URL in place of FORM_ENDPOINT below.
+  var FORM_ENDPOINT = "https://formspree.io/f/mbglazaz";
+
+  var form = document.getElementById('contact-form');
+  var submitBtn = document.getElementById('contact-submit');
+  var statusBox = document.getElementById('form-status');
+
+  var fields = [
+    { row: 'row-name', input: 'name', validate: function(v){ return v.trim().length > 0; } },
+    { row: 'row-email', input: 'email', validate: function(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v.trim()); } },
+    { row: 'row-message', input: 'message', validate: function(v){ return v.trim().length > 0; } }
+  ];
+
+  function showStatus(kind, text){
+    statusBox.textContent = text;
+    statusBox.className = 'form-status show ' + kind;
+  }
+
+  function clearStatus(){
+    statusBox.className = 'form-status';
+    statusBox.textContent = '';
+  }
+
+  function validate(){
+    var ok = true;
+    fields.forEach(function(f){
+      var el = document.getElementById(f.input);
+      var row = document.getElementById(f.row);
+      if (!f.validate(el.value)) {
+        row.classList.add('invalid');
+        ok = false;
+      } else {
+        row.classList.remove('invalid');
+      }
+    });
+    return ok;
+  }
+
+  fields.forEach(function(f){
+    document.getElementById(f.input).addEventListener('input', function(){
+      var row = document.getElementById(f.row);
+      if (f.validate(this.value)) row.classList.remove('invalid');
+    });
+  });
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    clearStatus();
+
+    // honeypot: if this hidden field got filled in, silently drop it (bot)
+    if (document.getElementById('company').value) {
+      form.reset();
+      showStatus('success', "Thanks! We'll get back to you soon.");
+      return;
+    }
+
+    if (!validate()) {
+      showStatus('error', 'Please fix the highlighted fields and try again.');
+      return;
+    }
+
+    if (FORM_ENDPOINT.indexOf('YOUR_FORM_ID') !== -1) {
+      showStatus('error', 'Form backend not configured yet — set FORM_ENDPOINT in the script to your Formspree URL.');
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending…';
+
+    var data = {
+      name: document.getElementById('name').value.trim(),
+      email: document.getElementById('email').value.trim(),
+      message: document.getElementById('message').value.trim()
+    };
+
+    fetch(FORM_ENDPOINT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(data)
+    })
+    .then(function(res){
+      if (res.ok) {
+        form.reset();
+        showStatus('success', "Thanks, " + data.name.split(' ')[0] + "! Your message is in — we'll reply by email soon.");
+      } else {
+        return res.json().then(function(body){
+          var msg = (body && body.errors && body.errors.length) ? body.errors.map(function(er){return er.message;}).join(', ') : 'Something went wrong sending your message.';
+          throw new Error(msg);
+        });
+      }
+    })
+    .catch(function(err){
+      showStatus('error', err.message || 'Something went wrong. Please try emailing us directly instead.');
+    })
+    .finally(function(){
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send Message';
+    });
+  });
+
+  // scroll-triggered reveal animations
+  var revealEls = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(function(el){ io.observe(el); });
+  } else {
+    revealEls.forEach(function(el){ el.classList.add('in-view'); });
+  }
+
+  // scroll progress bar + hero parallax
+  var progressBar = document.getElementById('scroll-progress');
+  var heroBg = document.querySelector('.hero-bg');
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ticking = false;
+  function onScroll(){
+    var scrollTop = window.scrollY;
+    var docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    progressBar.style.width = pct + '%';
+    if (heroBg && !reduceMotion) {
+      var offset = Math.min(scrollTop * 0.4, 200);
+      heroBg.style.backgroundPositionY = 'calc(50% + ' + offset + 'px)';
+    }
+    ticking = false;
+  }
+  window.addEventListener('scroll', function(){
+    if (!ticking) { window.requestAnimationFrame(onScroll); ticking = true; }
+  }, { passive: true });
+  onScroll();
+
+  // active nav link highlight while scrolling
+  var sections = document.querySelectorAll('section[id]');
+  var navLinks = document.querySelectorAll('.nav-links a');
+  if ('IntersectionObserver' in window && sections.length) {
+    var navIo = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if (entry.isIntersecting) {
+          navLinks.forEach(function(l){ l.classList.remove('active'); });
+          var match = document.querySelector('.nav-links a[href="#' + entry.target.id + '"]');
+          if (match) match.classList.add('active');
+        }
+      });
+    }, { rootMargin: '-45% 0px -50% 0px' });
+    sections.forEach(function(s){ navIo.observe(s); });
+  }
+
+  // back-to-top button
+  var toTop = document.getElementById('to-top');
+  window.addEventListener('scroll', function(){
+    if (window.scrollY > 500) toTop.classList.add('show');
+    else toTop.classList.remove('show');
+  }, { passive: true });
+
+  // close mobile menu after tapping a link
+  var menuToggle = document.getElementById('menu-toggle');
+  navLinks.forEach(function(l){
+    l.addEventListener('click', function(){ menuToggle.checked = false; });
+  });
+})();
+</script>
+
+</body>
+</html>
